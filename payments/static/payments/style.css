@@ -1,0 +1,38 @@
+:root {
+    color-scheme: light;
+    font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    --bg: #f5fff9;
+    --card: #ffffff;
+    --primary: #10B981;
+    --primary-dark: #065F46;
+    --accent: #6EE7B7;
+    --soft: #D1FAE5;
+    --text: #064E3B;
+    --muted: #4B5563;
+    --border: #D1FAE5;
+}
+
+* { box-sizing: border-box; }
+body { margin: 0; background: linear-gradient(135deg, var(--soft) 0%, var(--bg) 100%); color: var(--text); }
+.container { max-width: 1180px; margin: 0 auto; padding: 2rem 1rem 3rem; }
+.navbar {
+    background: linear-gradient(90deg, var(--primary-dark) 0%, var(--primary) 100%) !important;
+    
+    min-height: 20px;
+}
+.navbar-brand, .nav-link { color: #fff !important; }
+.navbar-brand { font-size: 1rem; }
+.nav-link { padding-top: 0.15rem !important; padding-bottom: 0.15rem !important; }
+.card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; box-shadow: 0 10px 30px rgba(6, 95, 70, 0.08); }
+.btn-primary { background-color: var(--primary) !important; border-color: var(--primary) !important; }
+.btn-primary:hover { background-color: var(--primary-dark) !important; border-color: var(--primary-dark) !important; }
+.btn-outline-secondary { color: var(--primary-dark) !important; border-color: var(--accent) !important; }
+.btn-outline-secondary:hover { background-color: var(--soft) !important; border-color: var(--primary) !important; color: var(--primary-dark) !important; }
+.bg-light { background-color: var(--soft) !important; }
+.table thead { background-color: var(--soft); }
+.badge.bg-success { background-color: var(--primary-dark) !important; }
+.badge.bg-warning { background-color: var(--accent) !important; color: var(--primary-dark) !important; }
+.form-control:focus { border-color: var(--primary); box-shadow: 0 0 0 0.2rem rgba(16, 185, 129, 0.2); }
+.alert-success { background-color: var(--soft); color: var(--primary-dark); border-color: var(--accent); }
+.alert-info { background-color: #f0fdf4; color: var(--primary-dark); border-color: var(--accent); }
+.alert-danger { background-color: #fff1f2; color: #b91c1c; border-color: #fecdd3; }

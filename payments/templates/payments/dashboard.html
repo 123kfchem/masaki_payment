@@ -1,0 +1,99 @@
+{% extends 'payments/base.html' %}
+{% block content %}
+<div class="row g-4">
+    <div class="col-lg-7">
+        <section class="card shadow-sm border-0">
+            <div class="card-body">
+                <h2 class="h4 mb-3">Payment dashboard</h2>
+                <p class="text-muted">Initiate STK push payments for your clients and keep a clear record of completed and pending transactions.</p>
+                <form method="post">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button type="submit" class="btn btn-primary">Initiate payment</button>
+                </form>
+            </div>
+        </section>
+    </div>
+
+    <div class="col-lg-5">
+        <section class="card shadow-sm border-0 h-100">
+            <div class="card-body">
+                <h3 class="h5 mb-3">Daily totals</h3>
+                <div class="row g-3 mb-3">
+                    <div class="col-4">
+                        <div class="bg-light rounded p-2">
+                            <span class="d-block text-muted small">Completed</span>
+                            <strong>{{ completed_total }}</strong>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="bg-light rounded p-2">
+                            <span class="d-block text-muted small">Pending</span>
+                            <strong>{{ pending_total }}</strong>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="bg-light rounded p-2">
+                            <span class="d-block text-muted small">Transactions</span>
+                            <strong>{{ transaction_count }}</strong>
+                        </div>
+                    </div>
+                </div>
+                {% if daily_totals %}
+                    <ul class="list-group list-group-flush">
+                        {% for day in daily_totals %}
+                            <li class="list-group-item d-flex justify-content-between align-items-center px-0">
+                                <span>{{ day.day|date:'M d, Y' }}</span>
+                                <strong>{{ day.total }}</strong>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p class="text-muted mb-0">No completed payments yet.</p>
+                {% endif %}
+            </div>
+        </section>
+    </div>
+</div>
+
+<section class="card shadow-sm border-0 mt-4">
+    <div class="card-body">
+        <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-3">
+            <h3 class="h5 mb-0">Recent transactions</h3>
+            <div class="btn-group" role="group" aria-label="Transaction filters">
+                <button class="btn btn-outline-secondary btn-sm" data-filter-button="all">All</button>
+                <button class="btn btn-outline-secondary btn-sm" data-filter-button="COMPLETED">Completed</button>
+                <button class="btn btn-outline-secondary btn-sm" data-filter-button="PENDING">Pending</button>
+            </div>
+        </div>
+        <div class="table-responsive">
+            <table class="table align-middle">
+                <thead>
+                    <tr>
+                        <th>Client</th>
+                        <th>Amount</th>
+                        <th>Status</th>
+                        <th>Created</th>
+                        <th>Reference</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for transaction in transactions %}
+                        <tr data-status="{{ transaction.status }}">
+                            <td>{{ transaction.phone_number }}</td>
+                            <td>{{ transaction.amount }}</td>
+                            <td><span class="badge rounded-pill {% if transaction.status == 'COMPLETED' %}bg-success{% elif transaction.status == 'PENDING' %}bg-warning text-dark{% else %}bg-danger{% endif %}">{{ transaction.status }}</span></td>
+                            <td>{{ transaction.created_at|date:'M d, Y H:i' }}</td>
+                            <td>{{ transaction.checkout_request_id|default:'Awaiting' }}</td>
+                        </tr>
+                    {% empty %}
+                        <tr>
+                            <td colspan="5" class="text-muted">No transactions recorded yet.</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+{% endblock %}
